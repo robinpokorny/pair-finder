@@ -7,39 +7,6 @@ export const includes = (list, [a, b]) =>
 export const findCombinations = (arr) =>
   arr.map((v, i) => arr.slice(i + 1).map((w) => [v, w])).flat();
 
-export const arrange2 = (attendees, logs) => {
-  const combinations = findCombinations(attendees)
-    .filter(
-      (i) =>
-        !includes(
-          logs.map((o) => o.pairs).flat(),
-          i.map((v) => v.tag)
-        )
-    )
-    .filter((i) => i[0].team !== i[1].team)
-    .map((o) => o.map((v) => v.tag));
-  let list = [];
-  let tempList = [...combinations];
-  let index = 0;
-  while (
-    list.length < Math.floor(attendees.length / 2) &&
-    index < attendees.length - 1
-  ) {
-    const tempEle = tempList.shift();
-    if (tempEle) {
-      list.push(tempEle);
-      tempList = tempList.filter(
-        (i) => !i.includes(tempEle[0]) && !i.includes(tempEle[1])
-      );
-    } else {
-      list = [];
-      tempList = [...combinations];
-      tempList.splice(0, index++);
-    }
-  }
-  return list;
-};
-
 const peopleMet = (list, tag) => {
   const pairsWithTag = list.filter(([a, b]) => a === tag || b === tag).flat();
 
